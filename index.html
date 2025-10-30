@@ -1,0 +1,2559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebNest Technologies - Professional Academic Projects</title>
+    <meta name="description" content="WebNest Technologies provides professional academic projects with source code, documentation, and implementation support.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --accent: #10b981;
+            --accent-alt: #059669;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --text-dark: #1e293b;
+            --text-medium: #475569;
+            --text-light: #64748b;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --gradient-accent: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            position: relative;
+            display: inline-block;
+            color: var(--text-dark);
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.7s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-accent {
+            background: var(--gradient-accent);
+        }
+
+        .btn-accent:hover {
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-tagline {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: -5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            font-size: 1rem;
+            padding: 8px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            width: 30px;
+            height: 30px;
+            justify-content: center;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 3px;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 30px 0;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-links a {
+                padding: 15px 0;
+                font-size: 1.2rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(6px, 6px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(6px, -6px);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 120px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%230ea5e9" fill-opacity="0.05" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,192C672,181,768,139,864,138.7C960,139,1056,181,1152,181.3C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 45px;
+            color: var(--text-medium);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            min-width: 150px;
+        }
+
+        .hero-stat:hover {
+            transform: translateY(-5px);
+        }
+
+        .hero-stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        /* Project Catalog Section */
+        .projects {
+            background: var(--bg-white);
+        }
+
+        .catalog-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--bg-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-y: hidden;
+        }
+
+        .category-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-filters > * {
+            flex-shrink: 0;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            background: var(--bg-light);
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+        }
+
+        .project-card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--box-shadow);
+            border: 1px solid #f1f5f9;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-image {
+            height: 200px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .tech-tag {
+            background: var(--bg-light);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .project-prid {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .project-price {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .project-delivery {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .project-actions .btn {
+            flex: 1;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+        }
+
+        .copy-prid {
+            position: relative;
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text-dark);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            margin-bottom: 8px;
+            z-index: 10;
+        }
+
+        .copy-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .copy-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--text-dark);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background: var(--bg-light);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px;
+        }
+
+        .step-card {
+            background: var(--bg-white);
+            padding: 50px 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            box-shadow: var(--box-shadow);
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.4rem;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            color: var(--primary);
+        }
+
+        .step-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            color: var(--text-dark);
+        }
+
+        .step-card p {
+            color: var(--text-medium);
+            font-size: 1rem;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-white);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 25px;
+            color: var(--text-dark);
+        }
+
+        .about-text p {
+            margin-bottom: 35px;
+            color: var(--text-medium);
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background: var(--bg-light);
+            min-width: 120px;
+            transition: var(--transition);
+        }
+
+        .stat:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+        }
+
+        .about-image {
+            text-align: center;
+            position: relative;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.02);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            padding: 20px;
+        }
+
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(30px) scale(0.95);
+            transition: var(--transition);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal.open .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-dark);
+        }
+
+        .modal-header {
+            padding: 35px 35px 25px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .modal-body {
+            padding: 25px 35px 35px;
+        }
+
+        .modal-project-image {
+            height: 220px;
+            background: var(--gradient-primary);
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            overflow: hidden;
+        }
+
+        .modal-project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .modal-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .modal-description {
+            margin-bottom: 35px;
+        }
+
+        .modal-description h3 {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .modal-description p {
+            color: var(--text-medium);
+            line-height: 1.8;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 18px;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: var(--gradient-primary);
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,192C672,181,768,139,864,138.7C960,139,1056,181,1152,181.3C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+        }
+
+        .cta h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 25px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 45px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .cta-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 80px 0 25px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            margin-bottom: 25px;
+        }
+
+        .footer-logo .logo-text {
+            color: white;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+
+        .footer-logo .logo-tagline {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .footer-links h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .footer-links h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-contact li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 18px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+        }
+
+        /* Floating Elements */
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 65px;
+            height: 65px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+
+        .floating-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Loading */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loader-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Advanced Features */
+        .advanced-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            background: var(--bg-white);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: var(--bg-light);
+        }
+
+        .project-comparison {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .project-comparison.active {
+            transform: translateY(0);
+        }
+
+        .comparison-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .comparison-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .comparison-item {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background: var(--bg-light);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+            
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+            
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            
+            .modal-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-stats {
+                gap: 30px;
+            }
+            
+            .hero-stat {
+                min-width: 130px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                max-width: 720px;
+            }
+            
+            section {
+                padding: 80px 0;
+            }
+            
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-stats {
+                gap: 20px;
+            }
+            
+            .hero-stat {
+                min-width: 120px;
+                padding: 15px;
+            }
+            
+            .hero-stat-value {
+                font-size: 2rem;
+            }
+            
+            .catalog-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .category-filters {
+                justify-content: flex-start;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .cta {
+                padding: 80px 0;
+            }
+            
+            .cta h2 {
+                font-size: 1.8rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                gap: 20px;
+            }
+            
+            .stat {
+                min-width: 100px;
+                padding: 15px;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero {
+                padding: 130px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-actions, .cta-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .steps {
+                gap: 50px;
+            }
+            
+            .step-card {
+                padding: 40px 25px;
+            }
+            
+            .step-icon {
+                font-size: 2.5rem;
+            }
+            
+            .modal-content {
+                margin: 10px;
+            }
+            
+            .modal-header, .modal-body {
+                padding: 25px 20px;
+            }
+            
+            .floating-whatsapp {
+                width: 55px;
+                height: 55px;
+                font-size: 1.7rem;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .back-to-top {
+                width: 45px;
+                height: 45px;
+                bottom: 85px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .hero-stat {
+                min-width: 100px;
+                padding: 12px;
+            }
+            
+            .hero-stat-value {
+                font-size: 1.8rem;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .project-content {
+                padding: 20px;
+            }
+        }
+        @media (max-width: 1024px) {
+        #cta-wp {
+            display: none;
+        }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading WebNest Technologies</div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+          <div class="nav-container">
+      
+            <!-- Logo Section -->
+            <a href="https://www.thewebnest.com" class="logo" target="_blank" style="display: flex; align-items: center; text-decoration: none;">
+              <img src="images/logo1 - Copy.png" alt="WebNest Technologies" style="height: 55px; width: auto; object-fit: contain;">
+            </a>
+      
+            <!-- Navigation Links -->
+            <nav class="nav-links">
+              <a href="#home" class="active">Home</a>
+              <a href="#projects">Projects</a>
+              <a href="#how-it-works">Process</a>
+              <a href="#about">About</a>
+            </nav>
+      
+            <!-- Actions (Hamburger) -->
+            <div class="nav-actions">
+              <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+      
+          </div>
+        </div>
+      </header>
+      
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Professional Academic Projects for Your Success</h1>
+                <p>WebNest Technologies provides high-quality academic projects with complete source code, documentation, and implementation support to help students excel in their coursework.</p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-accent">
+                        <i class="bi bi-grid-3x3-gap"></i> Browse Projects
+                    </a>
+                    <a href="https://wa.me/916382984042?text=Hi%20WebNest%20Technologies!%20I%20want%20to%20order%20a%20project." class="btn btn-outline" target="_blank">
+                        <i class="bi bi-whatsapp"></i> Contact via WhatsApp
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">30+</span>
+                        <span class="hero-stat-label">Students Helped</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">30+</span>
+                        <span class="hero-stat-label">Projects Available</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">24/7</span>
+                        <span class="hero-stat-label">Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Catalog Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Portfolio</h2>
+                <p>Explore our collection of academic projects across various domains and technologies</p>
+            </div>
+            
+            <div class="catalog-controls">
+                <div class="search-box">
+                    <span class="search-icon"><i class="bi bi-search"></i></span>
+                    <input type="text" id="search-input" placeholder="Search projects by title, technology, or description...">
+                    <div class="search-suggestions" id="search-suggestions"></div>
+                </div>
+                
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="all">All Projects</button>
+                    <button class="filter-btn" data-category="Web Development">Web Development</button>
+                    <button class="filter-btn" data-category="AI/ML Projects">Machine Learning</button>
+                    <button class="filter-btn" data-category="IoT/Arduino">IoT / Arduino</button>
+                    <button class="filter-btn" data-category="App Development">App Development</button>
+                    <button class="filter-btn" data-category="Mini Projects">Mini Projects</button>
+                </div>
+            </div>
+            
+
+            
+            <div class="projects-grid" id="projects-grid">
+                <!-- Projects will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Process</h2>
+                <p>Simple and efficient workflow to get your academic project</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon"><i class="bi bi-folder2-open"></i></div>
+                    <h3>Browse Portfolio</h3>
+                    <p>Explore our extensive collection of academic projects across various domains and technologies.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon"><i class="bi bi-clipboard-check"></i></div>
+                    <h3>Select Project</h3>
+                    <p>Choose the project that best fits your requirements and academic needs.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon"><i class="bi bi-download"></i></div>
+                    <h3>Receive Materials</h3>
+                    <p>Get complete source code, documentation, and implementation guide for your selected project.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About WebNest Technologies</h2>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Empowering Students with Quality Academic Projects</h2>
+                    <p>WebNest Technologies is a student-focused initiative dedicated to providing high-quality academic projects that help students excel in their coursework and gain practical experience.</p>
+                    
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-value">30+</span>
+                            <span class="stat-label">Students Helped</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">30+</span>
+                            <span class="stat-label">Projects Available</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">4.8/5</span>
+                            <span class="stat-label">Satisfaction Rate</span>
+                        </div>
+                    </div>
+                    
+                    <p>Our team of experienced developers and academic professionals ensures that each project meets the highest standards of quality and educational value.</p>
+                </div>
+                
+                <!-- About Image -->
+                <div class="about-image">
+                    <div class="project-image" style="height: 300px; border-radius: var(--border-radius);">
+                        <i class="bi bi-laptop" style="font-size: 4rem;"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
+                    <h3>Quick Delivery</h3>
+                    <p>Get your project materials promptly to meet your academic deadlines.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-code-slash"></i></div>
+                    <h3>Quality Code</h3>
+                    <p>All projects come with clean, well-documented and tested source code.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-headset"></i></div>
+                    <h3>Implementation Support</h3>
+                    <p>Get assistance with project setup, customization, and implementation.</p>
+                </div>
+            </div>
+        </div>
+    </section>    
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Elevate Your Academic Projects?</h2>
+            <p>Browse our portfolio and find the perfect project for your academic requirements.</p>
+            <div class="cta-actions">
+                <a href="#projects" class="btn btn-accent">
+                    <i class="bi bi-grid-3x3-gap"></i> Explore Portfolio
+                </a>
+                <a href="https://wa.me/916382984042?text=Hi%20WebNest%20Technologies!%20I%20want%20to%20order%20a%20project." class="btn btn-outline" target="_blank">
+                    <i class="bi bi-whatsapp"></i> Contact via WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="logo-text">WebNest Technologies</div>
+                        <div class="logo-tagline">Professional Academic Projects</div>
+                    </div>
+                    <p>A student-focused initiative dedicated to providing high-quality academic projects that help students excel in their coursework.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61566781554016&mibextid=ZbWKwL" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.linkedin.com/company/webnest-technologies2024/" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://www.instagram.com/invites/contact/?igsh=1ho7dg97frwuk&utm_content=vzzuvfk" class="social-link"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#how-it-works">Process</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="#projects" data-category="Web Development">Web Development</a></li>
+                        <li><a href="#projects" data-category="AI/ML Projects">Machine Learning</a></li>
+                        <li><a href="#projects" data-category="IoT/Arduino">IoT / Arduino</a></li>
+                        <li><a href="#projects" data-category="App Development">App Development</a></li>
+                        <li><a href="#projects" data-category="Mini Projects">Mini Projects</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <span><i class="bi bi-envelope"></i></span>
+                            <span>contact@thewebnest.com</span>
+                        </li>
+                        <li>
+                            <span><i class="bi bi-whatsapp"></i></span>
+                            <span>WhatsApp: +91 63829 84042</span>
+                        </li>
+                        <li>
+                            <span><i class="bi bi-globe"></i></span>
+                            <span><a href="https://www.thewebnest.com" target="_blank">www.thewebnest.com</a></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 WebNest Technologies — All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Elements -->
+    <a href="https://wa.me/916382984042?text=Hi%20WebNest%20Technologies!%20I%20want%20to%20order%20a%20project." class="floating-whatsapp" target="_blank"><i class="bi bi-whatsapp"></i></a>
+    
+    <div class="back-to-top" id="back-to-top"><i class="bi bi-arrow-up"></i></div>
+
+    <!-- Project Details Modal -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close"><i class="bi bi-x-lg"></i></button>
+            <div class="modal-header">
+                <h2 id="modal-title">Project Title</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-project-image" id="modal-image">
+                    <i class="bi bi-laptop" style="font-size: 3rem;"></i>
+                </div>
+                
+                <div class="modal-tech-stack" id="modal-tech">
+                    <!-- Tech tags will be added here -->
+                </div>
+                
+                <div class="modal-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Project ID:</span>
+                        <span id="modal-prid">PRID-WEB001</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Category:</span>
+                        <span id="modal-category">Web Development</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Complexity:</span>
+                        <span id="modal-price">Intermediate</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Delivery:</span>
+                        <span id="modal-delivery">24-48 hours</span>
+                    </div>
+                </div>
+                
+                <div class="modal-description">
+                    <h3>Project Description</h3>
+                    <p id="modal-description">Project description will appear here...</p>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-primary copy-prid" id="modal-copy-prid">
+                        <span class="copy-tooltip" id="copy-tooltip">Copy Project ID</span>
+                        <i class="bi bi-clipboard"></i> Copy Project ID
+                    </button>
+                    <a href="https://wa.me/916382984042?text=Hi%20WebNest%20Technologies!%20I%20want%20to%20order%20project%20with%20ID:" class="btn btn-accent" id="modal-order-btn" target="_blank">
+                        <i class="bi bi-whatsapp"></i> Contact via WhatsApp
+                    </a>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Comparison Bar -->
+    <div class="project-comparison" id="project-comparison">
+        <div class="comparison-header">
+            <h3>Project Comparison</h3>
+            <button class="btn btn-outline" id="close-comparison">Close</button>
+        </div>
+        <div class="comparison-content" id="comparison-content">
+            <!-- Comparison items will be added here -->
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'https://catalog-backend-1.onrender.com';
+
+        // DOM Elements
+        const loader = document.getElementById('loader');
+        const header = document.getElementById('header');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const navLinkItems = document.querySelectorAll('.nav-links a');
+        const searchInput = document.getElementById('search-input');
+        const searchSuggestions = document.getElementById('search-suggestions');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectsGrid = document.getElementById('projects-grid');
+        const projectModal = document.getElementById('project-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalTitle = document.getElementById('modal-title');
+        const modalImage = document.getElementById('modal-image');
+        const modalTech = document.getElementById('modal-tech');
+        const modalPrid = document.getElementById('modal-prid');
+        const modalCategory = document.getElementById('modal-category');
+        const modalPrice = document.getElementById('modal-price');
+        const modalDelivery = document.getElementById('modal-delivery');
+        const modalDescription = document.getElementById('modal-description');
+        const modalCopyPrid = document.getElementById('modal-copy-prid');
+        const modalOrderBtn = document.getElementById('modal-order-btn');
+        const copyTooltip = document.getElementById('copy-tooltip');
+        const backToTop = document.getElementById('back-to-top');
+        const complexityFilter = document.getElementById('complexity-filter');
+        const priceFilter = document.getElementById('price-filter');
+        const deliveryFilter = document.getElementById('delivery-filter');
+        const projectComparison = document.getElementById('project-comparison');
+        const comparisonContent = document.getElementById('comparison-content');
+        const closeComparison = document.getElementById('close-comparison');
+
+        // Global State
+        let allProjects = [];
+        let filteredProjects = [];
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let searchTimeout;
+        let comparedProjects = [];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loader after page load
+            setTimeout(() => {
+                if (loader) loader.classList.add('hidden');
+            }, 1500);
+
+            // Load projects from API
+            loadProjects();
+
+            // Set up event listeners
+            setupEventListeners();
+        });
+
+        // Load projects from API
+        async function loadProjects() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/projects`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch projects');
+                }
+                allProjects = await response.json();
+                filteredProjects = [...allProjects];
+                renderProjects();
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                // Fallback to mock data if API fails
+                allProjects = getMockProjects();
+                filteredProjects = [...allProjects];
+                renderProjects();
+            }
+        }
+
+        // Mock data for fallback
+        function getMockProjects() {
+            return [
+                {
+                    prid: "PRW01",
+                    title: "Attendance Management System",
+                    category: "Web Development",
+                    techStack: "React, Node, MongoDB",
+                    price: 1500,
+                    complexity: "Intermediate",
+                    deliveryTime: "24 hours",
+                    description: "A comprehensive full-stack attendance management system with user authentication, role-based access, and reporting features. Perfect for academic institutions looking to digitize their attendance tracking process.",
+                    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    prid: "PRW02",
+                    title: "AI-Powered Chatbot",
+                    category: "AI/ML Projects",
+                    techStack: "Python, NLTK, Flask",
+                    price: 2000,
+                    complexity: "Advanced",
+                    deliveryTime: "48 hours",
+                    description: "An intelligent chatbot using natural language processing for intent classification and response generation. Includes training data and model customization options.",
+                    image: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    prid: "PRW03",
+                    title: "IoT Smart Home Controller",
+                    category: "IoT/Arduino",
+                    techStack: "Arduino, Node.js, MQTT",
+                    price: 2500,
+                    complexity: "Intermediate",
+                    deliveryTime: "24 hours",
+                    description: "A smart home automation system that allows control of home devices via web interface using Arduino and IoT protocols. Includes hardware schematics and implementation guide.",
+                    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    prid: "PRW04",
+                    title: "E-commerce Mobile Application",
+                    category: "App Development",
+                    techStack: "React Native, Firebase",
+                    price: 3000,
+                    complexity: "Advanced",
+                    deliveryTime: "48 hours",
+                    description: "A feature-rich mobile shopping application with product catalog, shopping cart, user authentication, and payment simulation. Perfect for learning mobile app development with e-commerce functionality.",
+                    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    prid: "PRW05",
+                    title: "Fruit Classification System",
+                    category: "Mini Projects",
+                    techStack: "Python, TensorFlow",
+                    price: 1200,
+                    complexity: "Beginner",
+                    deliveryTime: "24 hours",
+                    description: "An image classification system for fruits using convolutional neural networks. Includes dataset, model training code, and classification interface.",
+                    image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    prid: "PRW06",
+                    title: "Library Management System",
+                    category: "Web Development",
+                    techStack: "PHP, MySQL, Bootstrap",
+                    price: 1000,
+                    complexity: "Intermediate",
+                    deliveryTime: "24 hours",
+                    description: "A complete library management system with book catalog, member management, issue/return workflows, and reporting features. Ideal for academic projects on database management systems.",
+                    image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    prid: "PRW07",
+                    title: "Face Recognition System",
+                    category: "AI/ML Projects",
+                    techStack: "OpenCV, Python, Raspberry Pi",
+                    price: 3500,
+                    complexity: "Advanced",
+                    deliveryTime: "48 hours",
+                    description: "A face recognition-based access control system using OpenCV and Python. Can be implemented with Raspberry Pi for hardware integration. Includes dataset and model training code.",
+                    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    prid: "PRW08",
+                    title: "Weather Monitoring Station",
+                    category: "IoT/Arduino",
+                    techStack: "Arduino, Sensors, IoT",
+                    price: 1800,
+                    complexity: "Beginner",
+                    deliveryTime: "24 hours",
+                    description: "An IoT-based weather monitoring station that collects temperature, humidity, and pressure data. Includes hardware setup and web dashboard for data visualization.",
+                    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                }
+            ];
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Header scroll effect
+            window.addEventListener('scroll', handleScroll);
+
+            // Hamburger menu
+            if (hamburger) {
+                hamburger.addEventListener('click', toggleMobileMenu);
+            }
+
+            // Navigation link clicks
+            if (navLinkItems) {
+                navLinkItems.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        const targetSection = document.getElementById(targetId);
+                        
+                        if (targetSection) {
+                            // Update active nav link
+                            navLinkItems.forEach(l => l.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            // Scroll to section
+                            window.scrollTo({
+                                top: targetSection.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Close mobile menu if open
+                            if (navLinks) {
+                                navLinks.classList.remove('active');
+                            }
+                            if (hamburger) {
+                                hamburger.classList.remove('active');
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Search input with debouncing and suggestions
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        searchQuery = this.value.toLowerCase();
+                        updateSearchSuggestions();
+                        filterProjects();
+                    }, 300);
+                });
+
+                searchInput.addEventListener('focus', function() {
+                    updateSearchSuggestions();
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                        searchSuggestions.classList.remove('active');
+                    }
+                });
+            }
+
+            // Category filter buttons
+            if (filterBtns) {
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Update active button
+                        filterBtns.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Update active category
+                        activeCategory = this.getAttribute('data-category');
+                        filterProjects();
+                    });
+                });
+            }
+
+            // Advanced filters
+            if (complexityFilter) {
+                complexityFilter.addEventListener('change', filterProjects);
+            }
+            if (priceFilter) {
+                priceFilter.addEventListener('change', filterProjects);
+            }
+            if (deliveryFilter) {
+                deliveryFilter.addEventListener('change', filterProjects);
+            }
+
+            // Modal close
+            if (modalClose) {
+                modalClose.addEventListener('click', closeModal);
+            }
+            if (projectModal) {
+                projectModal.addEventListener('click', function(e) {
+                    if (e.target === projectModal) {
+                        closeModal();
+                    }
+                });
+            }
+
+            // Copy Project ID button
+            if (modalCopyPrid) {
+                modalCopyPrid.addEventListener('click', copyPridToClipboard);
+            }
+
+            // Back to top button
+            if (backToTop) {
+                backToTop.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Footer category links
+            document.querySelectorAll('.footer-links a[data-category]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.getAttribute('data-category');
+                    
+                    // Find and click the corresponding filter button
+                    filterBtns.forEach(btn => {
+                        if (btn.getAttribute('data-category') === category) {
+                            btn.click();
+                        }
+                    });
+                    
+                    // Scroll to projects section
+                    document.getElementById('projects').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Project comparison
+            if (closeComparison) {
+                closeComparison.addEventListener('click', function() {
+                    projectComparison.classList.remove('active');
+                });
+            }
+        }
+
+        // Update search suggestions
+        function updateSearchSuggestions() {
+            if (!searchInput || !searchSuggestions) return;
+            
+            const query = searchInput.value.toLowerCase().trim();
+            
+            if (query.length === 0) {
+                searchSuggestions.classList.remove('active');
+                return;
+            }
+            
+            // Find matching projects
+            const matches = allProjects.filter(project => {
+                return (
+                    (project.title && project.title.toLowerCase().includes(query)) ||
+                    (project.prid && project.prid.toLowerCase().includes(query)) ||
+                    (project.techStack && project.techStack.toLowerCase().includes(query)) ||
+                    (project.category && project.category.toLowerCase().includes(query))
+                );
+            }).slice(0, 5); // Limit to 5 suggestions
+            
+            if (matches.length === 0) {
+                searchSuggestions.innerHTML = '<div class="suggestion-item">No projects found</div>';
+            } else {
+                searchSuggestions.innerHTML = matches.map(project => `
+                    <div class="suggestion-item" data-prid="${project.prid}">
+                        <strong>${project.title}</strong> - ${project.category}
+                    </div>
+                `).join('');
+                
+                // Add event listeners to suggestion items
+                document.querySelectorAll('.suggestion-item[data-prid]').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const prid = this.getAttribute('data-prid');
+                        searchInput.value = '';
+                        searchSuggestions.classList.remove('active');
+                        openProjectModal(prid);
+                    });
+                });
+            }
+            
+            searchSuggestions.classList.add('active');
+        }
+
+        // Handle scroll events
+        function handleScroll() {
+            // Header background on scroll
+            if (header) {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+            
+            // Back to top button
+            if (backToTop) {
+                if (window.scrollY > 500) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            }
+            
+            // Update active nav link based on scroll position
+            updateActiveNavLink();
+        }
+
+        // Update active navigation link based on scroll position
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('section');
+            const scrollPos = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    navLinkItems.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            if (navLinks) {
+                navLinks.classList.toggle('active');
+            }
+            if (hamburger) {
+                hamburger.classList.toggle('active');
+            }
+        }
+
+        // Filter projects based on category, search query, and advanced filters
+        function filterProjects() {
+            const complexityValue = complexityFilter ? complexityFilter.value : 'all';
+            const priceValue = priceFilter ? priceFilter.value : 'all';
+            const deliveryValue = deliveryFilter ? deliveryFilter.value : 'all';
+            
+            filteredProjects = allProjects.filter(project => {
+                // Category filter
+                const categoryMatch = activeCategory === 'all' || project.category === activeCategory;
+                
+                // Search filter
+                const searchMatch = searchQuery === '' || 
+                    (project.title && project.title.toLowerCase().includes(searchQuery)) ||
+                    (project.prid && project.prid.toLowerCase().includes(searchQuery)) ||
+                    (project.techStack && project.techStack.toLowerCase().includes(searchQuery)) ||
+                    (project.description && project.description.toLowerCase().includes(searchQuery)) ||
+                    (project.category && project.category.toLowerCase().includes(searchQuery)) ||
+                    (project.complexity && project.complexity.toLowerCase().includes(searchQuery));
+                
+                // Complexity filter
+                const complexityMatch = complexityValue === 'all' || project.complexity === complexityValue;
+                
+                // Price filter
+                let priceMatch = true;
+                if (priceValue !== 'all') {
+                    const price = project.price || 0;
+                    if (priceValue === '0-1000') priceMatch = price <= 1000;
+                    else if (priceValue === '1000-2000') priceMatch = price > 1000 && price <= 2000;
+                    else if (priceValue === '2000-3000') priceMatch = price > 2000 && price <= 3000;
+                    else if (priceValue === '3000+') priceMatch = price > 3000;
+                }
+                
+                // Delivery filter
+                let deliveryMatch = true;
+                if (deliveryValue !== 'all') {
+                    const deliveryTime = project.deliveryTime || '';
+                    if (deliveryValue === '24') deliveryMatch = deliveryTime.includes('24');
+                    else if (deliveryValue === '48') deliveryMatch = deliveryTime.includes('48');
+                    else if (deliveryValue === '72') deliveryMatch = deliveryTime.includes('72');
+                }
+                
+                return categoryMatch && searchMatch && complexityMatch && priceMatch && deliveryMatch;
+            });
+            
+            renderProjects();
+        }
+
+        // Render projects to the grid
+        function renderProjects() {
+            if (!projectsGrid) return;
+            
+            if (filteredProjects.length === 0) {
+                projectsGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px;">
+                        <i class="bi bi-search" style="font-size: 4rem; color: var(--text-light); margin-bottom: 25px;"></i>
+                        <h3 style="margin-bottom: 15px;">No projects found</h3>
+                        <p style="color: var(--text-medium);">Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            projectsGrid.innerHTML = filteredProjects.map(project => `
+                <div class="project-card" data-prid="${project.prid}">
+                    <div class="project-image">
+                        ${project.image ? 
+                            `<img src="${project.image}" alt="${project.title}" loading="lazy">` :
+                            `<i class="bi bi-laptop" style="font-size: 2.5rem;"></i>`
+                        }
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">${project.title || 'Untitled Project'}</h3>
+                        <div class="project-tech">
+                            ${project.techStack ? project.techStack.split(',').map(tech => `
+                                <span class="tech-tag">${tech.trim()}</span>
+                            `).join('') : ''}
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-prid">${project.prid || 'N/A'}</span>
+                            <span class="project-price">₹${project.price || 'Contact for pricing'}</span>
+                        </div>
+                        <div class="project-delivery">
+                            <span><i class="bi bi-clock"></i></span>
+                            <span>${project.deliveryTime || 'Contact for details'}</span>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn btn-outline view-details">
+                                <i class="bi bi-eye"></i> View Details
+                            </button>
+                            <button class="btn btn-primary copy-prid-small">
+                                <span class="copy-tooltip">Copy Project ID</span>
+                                <i class="bi bi-clipboard"></i> Copy ID
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add event listeners to project cards
+            document.querySelectorAll('.project-card .view-details').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const projectCard = this.closest('.project-card');
+                    const prid = projectCard.getAttribute('data-prid');
+                    openProjectModal(prid);
+                });
+            });
+            
+            document.querySelectorAll('.project-card .copy-prid-small').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const projectCard = this.closest('.project-card');
+                    const prid = projectCard.getAttribute('data-prid');
+                    copyPridToClipboard(prid, this.querySelector('.copy-tooltip'));
+                });
+            });
+        }
+
+        // Open project details modal
+        function openProjectModal(prid) {
+            const project = allProjects.find(p => p.prid === prid);
+            if (!project) return;
+            
+            // Update modal content
+            if (modalTitle) modalTitle.textContent = project.title || 'Untitled Project';
+            if (modalPrid) modalPrid.textContent = project.prid || 'N/A';
+            if (modalCategory) modalCategory.textContent = project.category || 'Uncategorized';
+            if (modalPrice) modalPrice.textContent = project.complexity || 'Not specified';
+            if (modalDelivery) modalDelivery.textContent = project.deliveryTime || 'Contact for details';
+            if (modalDescription) modalDescription.textContent = project.description || 'No description available';
+            
+            // Update tech stack
+            if (modalTech) {
+                modalTech.innerHTML = project.techStack ? project.techStack.split(',').map(tech => `
+                    <span class="tech-tag">${tech.trim()}</span>
+                `).join('') : '<span class="tech-tag">Not specified</span>';
+            }
+            
+            // Update project image in modal
+            if (modalImage) {
+                if (project.image) {
+                    modalImage.innerHTML = `<img src="${project.image}" alt="${project.title}" loading="lazy">`;
+                } else {
+                    modalImage.innerHTML = `<i class="bi bi-laptop" style="font-size: 3rem;"></i>`;
+                }
+            }
+            
+            // Update WhatsApp order link
+            if (modalOrderBtn) {
+                modalOrderBtn.href = `https://wa.me/916382984042?text=Hi%20WebNest%20Technologies!%20I%20want%20to%20order%20project%20with%20ID:%20${project.prid || 'Unknown'}`;
+            }
+            
+            // Set PRID for copy button
+            if (modalCopyPrid) {
+                modalCopyPrid.setAttribute('data-prid', project.prid || '');
+            }
+            
+            // Open modal
+            if (projectModal) {
+                projectModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close project details modal
+        function closeModal() {
+            if (projectModal) {
+                projectModal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Copy Project ID to clipboard - FIXED VERSION
+        function copyPridToClipboard(prid, tooltip) {
+            // Handle different calling patterns
+            let pridToCopy;
+            let tooltipElement;
+            
+            if (typeof prid === 'string') {
+                // Called with parameters from project cards
+                pridToCopy = prid;
+                tooltipElement = tooltip;
+            } else {
+                // Called without parameters from modal
+                pridToCopy = this.getAttribute('data-prid');
+                tooltipElement = copyTooltip;
+            }
+            
+            if (!pridToCopy) {
+                console.error('No Project ID to copy');
+                return;
+            }
+            
+            // Create a temporary textarea element for copying
+            const textArea = document.createElement('textarea');
+            textArea.value = pridToCopy;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    if (tooltipElement) {
+                        tooltipElement.textContent = 'Copied ✅';
+                        tooltipElement.classList.add('show');
+                        
+                        setTimeout(() => {
+                            tooltipElement.classList.remove('show');
+                            setTimeout(() => {
+                                tooltipElement.textContent = 'Copy Project ID';
+                            }, 300);
+                        }, 2000);
+                    }
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                console.error('Failed to copy Project ID: ', err);
+                // Fallback to modern clipboard API
+                navigator.clipboard.writeText(pridToCopy).then(() => {
+                    if (tooltipElement) {
+                        tooltipElement.textContent = 'Copied ✅';
+                        tooltipElement.classList.add('show');
+                        
+                        setTimeout(() => {
+                            tooltipElement.classList.remove('show');
+                            setTimeout(() => {
+                                tooltipElement.textContent = 'Copy Project ID';
+                            }, 300);
+                        }, 2000);
+                    }
+                }).catch(fallbackErr => {
+                    console.error('Fallback copy also failed: ', fallbackErr);
+                    if (tooltipElement) {
+                        tooltipElement.textContent = 'Failed to copy';
+                        tooltipElement.classList.add('show');
+                        
+                        setTimeout(() => {
+                            tooltipElement.classList.remove('show');
+                            setTimeout(() => {
+                                tooltipElement.textContent = 'Copy Project ID';
+                            }, 300);
+                        }, 2000);
+                    }
+                });
+            } finally {
+                document.body.removeChild(textArea);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebNest Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-section {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        /* Login Form */
+        .login-form {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .login-form h2 {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        button.danger {
+            background: #e74c3c;
+        }
+        
+        button.danger:hover {
+            background: #c0392b;
+        }
+        
+        button.secondary {
+            background: #95a5a6;
+        }
+        
+        button.secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        /* Actions */
+        .actions {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* Projects Table */
+        .projects-table {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: #34495e;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+        }
+        
+        .close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        /* Messages */
+        .message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>WebNest Admin Panel</h1>
+        <div class="auth-section">
+            <span id="adminEmail"></span>
+            <button id="logoutBtn" style="display: none;">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Login Section -->
+        <div id="loginSection" class="login-form">
+            <h2>Admin Login</h2>
+            <div id="loginMessage" class="message"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard">
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProjects">0</div>
+                    <div>Total Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="activeProjects">0</div>
+                    <div>Active Projects</div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button id="addProjectBtn">Add New Project</button>
+                <button id="refreshBtn" class="secondary">Refresh Data</button>
+            </div>
+
+            <!-- Messages -->
+            <div id="message" class="message"></div>
+
+            <!-- Projects Table -->
+            <div class="projects-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>PRID</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Tech Stack</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectsTableBody">
+                        <!-- Projects will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Project</h3>
+                <button class="close">&times;</button>
+            </div>
+            <form id="projectForm">
+                <input type="hidden" id="editPrid">
+                
+                <div class="form-group">
+                    <label for="prid">Project ID (PRID):</label>
+                    <input type="text" id="prid" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <input type="text" id="category">
+                </div>
+                
+                <div class="form-group">
+                    <label for="techStack">Tech Stack:</label>
+                    <input type="text" id="techStack">
+                </div>
+                
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price">
+                </div>
+                
+                <div class="form-group">
+                    <label for="deliveryTime">Delivery Time:</label>
+                    <input type="text" id="deliveryTime">
+                </div>
+                
+                <div class="form-group">
+                    <label for="demoVideoUrl">Demo Video URL:</label>
+                    <input type="url" id="demoVideoUrl">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="reportIncluded">
+                    <label for="reportIncluded">Report Included</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="setupGuide">
+                    <label for="setupGuide">Setup Guide</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="screenshots">Screenshots (comma-separated URLs):</label>
+                    <textarea id="screenshots"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button type="submit">Save Project</button>
+                    <button type="button" class="secondary" id="cancelBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://catalog-backend-1.onrender.com/admin/login';
+        let token = localStorage.getItem('adminToken');
+        let currentEditingProject = null;
+
+        // DOM Elements
+        const loginSection = document.getElementById('loginSection');
+        const dashboard = document.getElementById('dashboard');
+        const loginForm = document.getElementById('loginForm');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const adminEmail = document.getElementById('adminEmail');
+        const projectsTableBody = document.getElementById('projectsTableBody');
+        const projectModal = document.getElementById('projectModal');
+        const projectForm = document.getElementById('projectForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const addProjectBtn = document.getElementById('addProjectBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const messageDiv = document.getElementById('message');
+        const loginMessage = document.getElementById('loginMessage');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            setupEventListeners();
+        });
+
+        function checkAuth() {
+            if (token) {
+                // Verify token is still valid by making a test request
+                fetchProjects().then(success => {
+                    if (success) {
+                        showDashboard();
+                    } else {
+                        logout();
+                    }
+                });
+            } else {
+                showLogin();
+            }
+        }
+
+        function setupEventListeners() {
+            loginForm.addEventListener('submit', handleLogin);
+            logoutBtn.addEventListener('click', logout);
+            addProjectBtn.addEventListener('click', showAddProjectModal);
+            refreshBtn.addEventListener('click', refreshData);
+            projectForm.addEventListener('submit', handleProjectSubmit);
+            
+            // Modal close events
+            document.querySelector('.close').addEventListener('click', hideModal);
+            document.getElementById('cancelBtn').addEventListener('click', hideModal);
+            projectModal.addEventListener('click', function(e) {
+                if (e.target === projectModal) hideModal();
+            });
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/admin/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    token = data.token;
+                    localStorage.setItem('adminToken', token);
+                    showMessage(loginMessage, 'Login successful!', 'success');
+                    setTimeout(() => {
+                        showDashboard();
+                    }, 1000);
+                } else {
+                    showMessage(loginMessage, data.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                showMessage(loginMessage, 'Network error. Please try again.', 'error');
+            }
+        }
+
+        function logout() {
+            token = null;
+            localStorage.removeItem('adminToken');
+            showLogin();
+        }
+
+        function showLogin() {
+            loginSection.style.display = 'block';
+            dashboard.style.display = 'none';
+            logoutBtn.style.display = 'none';
+            adminEmail.textContent = '';
+        }
+
+        function showDashboard() {
+            loginSection.style.display = 'none';
+            dashboard.style.display = 'block';
+            logoutBtn.style.display = 'block';
+            
+            // Extract email from token (simple decode - in real app, verify properly)
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                adminEmail.textContent = payload.email;
+            } catch (e) {
+                adminEmail.textContent = 'Admin';
+            }
+            
+            fetchProjects();
+        }
+
+        async function fetchProjects() {
+            try {
+                const response = await fetch(`${API_BASE}/projects`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.status === 401) {
+                    logout();
+                    return false;
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch projects');
+                }
+
+                const projects = await response.json();
+                displayProjects(projects);
+                updateStats(projects);
+                return true;
+            } catch (error) {
+                showMessage(messageDiv, 'Error fetching projects: ' + error.message, 'error');
+                return false;
+            }
+        }
+
+        function displayProjects(projects) {
+            projectsTableBody.innerHTML = '';
+            
+            projects.forEach(project => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${project.prid}</td>
+                    <td>${project.title}</td>
+                    <td>${project.category || '-'}</td>
+                    <td>${project.techStack || '-'}</td>
+                    <td>${project.price ? `₹${project.price}` : '-'}</td>
+                    <td>
+                        <span style="color: ${project.status === 'active' ? '#27ae60' : '#e74c3c'}">
+                            ${project.status}
+                        </span>
+                    </td>
+                    <td class="actions-cell">
+                        <button onclick="editProject('${project.prid}')" class="secondary">Edit</button>
+                        <button onclick="deleteProject('${project.prid}')" class="danger">Delete</button>
+                    </td>
+                `;
+                projectsTableBody.appendChild(row);
+            });
+        }
+
+        function updateStats(projects) {
+            document.getElementById('totalProjects').textContent = projects.length;
+            const activeCount = projects.filter(p => p.status === 'active').length;
+            document.getElementById('activeProjects').textContent = activeCount;
+        }
+
+        function showAddProjectModal() {
+            modalTitle.textContent = 'Add New Project';
+            projectForm.reset();
+            document.getElementById('editPrid').value = '';
+            currentEditingProject = null;
+            showModal();
+        }
+
+        async function editProject(prid) {
+            try {
+                const response = await fetch(`${API_BASE}/projects/${prid}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch project');
+                }
+
+                const project = await response.json();
+                
+                modalTitle.textContent = 'Edit Project';
+                document.getElementById('editPrid').value = project.prid;
+                document.getElementById('prid').value = project.prid;
+                document.getElementById('title').value = project.title || '';
+                document.getElementById('category').value = project.category || '';
+                document.getElementById('techStack').value = project.techStack || '';
+                document.getElementById('price').value = project.price || '';
+                document.getElementById('deliveryTime').value = project.deliveryTime || '';
+                document.getElementById('demoVideoUrl').value = project.demoVideoUrl || '';
+                document.getElementById('reportIncluded').checked = project.reportIncluded || false;
+                document.getElementById('setupGuide').checked = project.setupGuide || false;
+                document.getElementById('screenshots').value = project.screenshots ? project.screenshots.join(', ') : '';
+                document.getElementById('description').value = project.description || '';
+                document.getElementById('status').value = project.status || 'active';
+                
+                currentEditingProject = project;
+                showModal();
+            } catch (error) {
+                showMessage(messageDiv, 'Error fetching project: ' + error.message, 'error');
+            }
+        }
+
+        async function handleProjectSubmit(e) {
+            e.preventDefault();
+            
+            const projectData = {
+                prid: document.getElementById('prid').value,
+                title: document.getElementById('title').value,
+                category: document.getElementById('category').value,
+                techStack: document.getElementById('techStack').value,
+                price: document.getElementById('price').value ? parseInt(document.getElementById('price').value) : null,
+                deliveryTime: document.getElementById('deliveryTime').value,
+                demoVideoUrl: document.getElementById('demoVideoUrl').value,
+                reportIncluded: document.getElementById('reportIncluded').checked,
+                setupGuide: document.getElementById('setupGuide').checked,
+                screenshots: document.getElementById('screenshots').value.split(',').map(url => url.trim()).filter(url => url),
+                description: document.getElementById('description').value,
+                status: document.getElementById('status').value
+            };
+
+            try {
+                const editPrid = document.getElementById('editPrid').value;
+                let response;
+
+                if (editPrid) {
+                    // Update existing project
+                    response = await fetch(`${API_BASE}/projects/${editPrid}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(projectData)
+                    });
+                } else {
+                    // Create new project
+                    response = await fetch(`${API_BASE}/projects`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(projectData)
+                    });
+                }
+
+                if (response.ok) {
+                    showMessage(messageDiv, `Project ${editPrid ? 'updated' : 'created'} successfully!`, 'success');
+                    hideModal();
+                    refreshData();
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Operation failed');
+                }
+            } catch (error) {
+                showMessage(messageDiv, 'Error saving project: ' + error.message, 'error');
+            }
+        }
+
+        async function deleteProject(prid) {
+            if (!confirm(`Are you sure you want to delete project ${prid}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/projects/${prid}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    showMessage(messageDiv, 'Project deleted successfully!', 'success');
+                    refreshData();
+                } else {
+                    throw new Error('Failed to delete project');
+                }
+            } catch (error) {
+                showMessage(messageDiv, 'Error deleting project: ' + error.message, 'error');
+            }
+        }
+
+        function refreshData() {
+            fetchProjects();
+            showMessage(messageDiv, 'Data refreshed!', 'success');
+        }
+
+        function showModal() {
+            projectModal.style.display = 'flex';
+        }
+
+        function hideModal() {
+            projectModal.style.display = 'none';
+        }
+
+        function showMessage(element, text, type) {
+            element.textContent = text;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+            
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        // Make functions global for onclick handlers
+        window.editProject = editProject;
+        window.deleteProject = deleteProject;
+    </script>
+</body>
+</html>
